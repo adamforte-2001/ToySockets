@@ -1,0 +1,14 @@
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\bin\Debug\net8.0\WebSocketServer.exe
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\bin\Debug\net8.0\WebSocketServer.deps.json
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\bin\Debug\net8.0\WebSocketServer.runtimeconfig.json
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\bin\Debug\net8.0\WebSocketServer.dll
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\bin\Debug\net8.0\WebSocketServer.pdb
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\WebSocketServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\WebSocketServer.AssemblyInfoInputs.cache
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\WebSocketServer.AssemblyInfo.cs
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\WebSocketServer.csproj.CoreCompileInputs.cache
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\WebSocketServer.dll
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\refint\WebSocketServer.dll
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\WebSocketServer.pdb
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\WebSocketServer.genruntimeconfig.cache
+C:\Users\forteada\Documents\GitHub\test\WebSocketServer\obj\Debug\net8.0\ref\WebSocketServer.dll
