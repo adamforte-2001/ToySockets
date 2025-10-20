@@ -1,13 +1,17 @@
 <script setup>
   import { provide } from 'vue';
-  import SocketMessenger from './components/SocketMessenger.vue';
-  import { useSocketMessenger } from './Composables/useSocketMessenger.js';
-  const socketMessenger = useSocketMessenger();
-  provide("socketMessenger", socketMessenger);
+  import ChatRoom from './components/ChatRoom.vue';
+  import useChatRoom from './Composables/useChatRoom.js'
+  import useSocketMessenger from './Composables/useSocketMessenger.js';
+  import SocketMessenger from './Components/SocketMessenger.vue';
+  const chatRoom = useChatRoom();
+  provide("chatRoom", chatRoom);
+  //const socketMessenger = useSocketMessenger();
+  //provide("socketMessenger", socketMessenger);
 </script>
 
 <template>
-  <SocketMessenger />
+  <ChatRoom/>
 </template>
 
 <style scoped>

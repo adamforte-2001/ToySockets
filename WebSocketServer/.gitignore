@@ -1,3 +1,42 @@
+# ----------------------------
+# Visual Studio
+# ----------------------------
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Auto-generated files
+*.cache
+*.log
+*.vs/
+*.pdb
+*.exe
+*.dll
+*.appx
+*.appxupload
+*.ide
+
+## Build results
+[Bb]in/
+[Oo]bj/
+[Rr]elease/
+[Dd]ebug/
+x64/
+x86/
+*.ncb
+*.sdf
+*.ipch
+
+## NuGet packages
+*.nupkg
+*.snupkg
+packages/
+# Uncomment if using Package Restore
+# !packages/build/
 
 # ----------------------------
 # VS Code
@@ -37,8 +76,3 @@ pnpm-lock.yaml
 .idea/
 *.sublime-workspace
 *.sublime-project
-
-#dev certs - let this be machine dependent
-certs/dev-cert.key
-certs/dev-cert.pem
-

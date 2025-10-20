@@ -1,6 +1,7 @@
 <script setup>
   import { ref, inject, computed } from 'vue'
   const socketMessenger = inject("socketMessenger");
+  console.log(socketMessenger)
 </script>
 
 <template>
