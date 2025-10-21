@@ -17,7 +17,7 @@ public class ChatHandler : Hub
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
     */
-    public async Task Send(string message)
+    public async Task Send(string message, string topic)
     {
         await Clients.All.SendAsync("receive", message);
     }
