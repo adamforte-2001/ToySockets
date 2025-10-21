@@ -76,3 +76,9 @@ pnpm-lock.yaml
 .idea/
 *.sublime-workspace
 *.sublime-project
+
+# ------------------------------
+#   Configuration files
+# ------------------------------
+
+*/appsettings.local.json
