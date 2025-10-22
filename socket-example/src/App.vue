@@ -1,17 +1,11 @@
 <script setup>
-  import { provide } from 'vue';
   import ChatRoom from './components/ChatRoom.vue';
-  import useChatRoom from './Composables/useChatRoom.js'
-  import useSocketMessenger from './Composables/useSocketMessenger.js';
-  import SocketMessenger from './Components/SocketMessenger.vue';
-  const chatRoom = useChatRoom();
-  provide("chatRoom", chatRoom);
-  //const socketMessenger = useSocketMessenger();
-  //provide("socketMessenger", socketMessenger);
 </script>
 
 <template>
-  <ChatRoom/>
+  <div class="card space-y-2 p-3 bg-gray-500 rounded-2xl shadow">
+    <ChatRoom/>
+  </div>
 </template>
 
 <style scoped>

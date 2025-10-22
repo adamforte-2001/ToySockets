@@ -1,28 +1,92 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 const env = import.meta.env;
+/**
+ * @typedef {Object} Message
+ * @property {string} body
+ * @property {string} sender
+ * @property {boolean} acknowledged
+ */
+
 /** @type {import('vue').Ref<import('@microsoft/signalr').HubConnection | null>} */
 const _hubConnection = ref(null);
 /** @type {import('vue').Ref<string | null>} */
-const inputValue = ref('');
-/** @type {import('vue').Ref<{from:string, message:string}[]>} */
+const sendInputValue = ref('');
+/** @type {import('vue').Ref<{from:string, message:string, acknowledged:boolean}[]>} */
 const _messageFeed = ref([]);
 /** @type {import('vue').Ref<import('@microsoft/signalr').HubConnectionState> | null } */
 const connectionState = ref(HubConnectionState.Disconnected);
+/**@type {import('vue').Ref<string>} */
+const _topic = ref('default');
+/**@type {import('vue').Ref<string>} */
+const topicInputValue = ref('')
+/**@type {import('vue').Ref<string>} */
+const _connectionId = ref('');
+/**
+ * indexes on the _messageFeed of messages which have 
+ * been sent but which have not been acknowledged
+ * @type {import('vue').Ref<number[]>} */
+const indexesInTransit = ref([])
+
+/**@type {() => void} */
+function switchTopic(){
+    if (topicInputValue.value == _topic.value)
+    {
+        return;
+    }
+    _hubConnection.value.invoke("AddClientToTopic", _topic.value, topicInputValue.value)
+    .then(() => {
+        _topic.value = topicInputValue.value;
+        _messageFeed.value = [];
+        console.log(`topic set to ${_topic.value}`)
+    }).catch((error) => {
+        console.error(error);
+    });
+    
+}
+/**@type {() => string} */
+function getTopicClass(){
+    return _topic.value == topicInputValue.value ? "text-white" : "text-yellow-300";    
+}
+/**@type {(string) => void} */
+function storeConnectionId(connectionId){
+    _connectionId.value = connectionId;
+}
 
 function send(){
-    _hubConnection.value.invoke("Send", inputValue.value);
     _messageFeed.value.push({
         from: "Me",
-        message:inputValue.value
+        message:sendInputValue.value,
+        acknowledged: false
     });
-    inputValue.value = '';
+    indexesInTransit.value.push(_messageFeed.value.length - 1);
+    _hubConnection.value.invoke("Send", sendInputValue.value, _topic.value);
+    sendInputValue.value = '';
 }
-function receive(message){
+function receive(message, connectionId){
+    if (connectionId == _connectionId.value){
+        for(const index of indexesInTransit){
+            if (_messageFeed.value[index].message == message){
+                _messageFeed.value[index].acknowledged = true;
+                return;
+            } 
+        }
+    }
+    console.log(`from ${connectionId}`);
     _messageFeed.value.push({
         from: "Someone else",
-        message:message
+        message:message,
+        acknowledged:true
     });  
+}
+/**@param {{from:string, message:string, acknowledged:boolean} message} */
+function getMessageClass(message){
+    let messageClass = 
+    `rounded-lg px-1 py-[2px] text-gray-500 \
+    ${message.from == "Me" ? "self-end" : "self-start"} \
+    ${message.acknowledged ? "bg-green-400" : "bg-green-100"}`
+    /** @returns {string} */
+    return messageClass;
 }
 
 export default function useSignalRChatroom(){
@@ -33,7 +97,8 @@ export default function useSignalRChatroom(){
             .withUrl(url)
             .withAutomaticReconnect()
             .build();
-        _hubConnection.value.on("Receive", (message) => receive(message));
+        _hubConnection.value.on("receive", (message, connectionId) => receive(message, connectionId));
+        _hubConnection.value.on("storeConnectionId", storeConnectionId);
         _hubConnection.value.onreconnected(() => {
             connectionState.value = HubConnectionState.Connected;
         });
@@ -44,6 +109,7 @@ export default function useSignalRChatroom(){
         _hubConnection.value.start()
             .then(() => {
                 isConnected.value = HubConnectionState.Connected;
+                switchTopic(_topic.value);
             }).catch(() => {
                 connectionState.value = HubConnectionState.Disconnected;
             });
@@ -57,13 +123,21 @@ export default function useSignalRChatroom(){
      *   connectionState: import('vue').ComputedRef<import('@microsoft/signalr').HubConnectionState>,
      *   inputValue: import('vue').Ref<string>,
      *   messageFeed: import('vue').ComputedRef<{from:string, message:string}[]>,
-     *   send: () => void
+     *   send: () => void,
+     *   getMessageClass: ({from:string, message:string, acknowledged:boolean}) => string
+     *   switchTopic: () => void,
+     *   topicInputValue: string,
+     *   topicClass: import('vue').ComputedRef<string>
      * }}
      */
     return {
         connectionState: connectionState,
-        inputValue: inputValue,
+        sendInputValue: sendInputValue,
         messageFeed: computed(() => [..._messageFeed.value]),
-        send: send
+        send: send,
+        getMessageClass: getMessageClass,
+        switchTopic: switchTopic,
+        topicInputValue: topicInputValue, 
+        topicClass: computed(getTopicClass)
     }
 }
