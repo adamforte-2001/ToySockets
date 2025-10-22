@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="card">
+  <div class="card space-y-2 p-3 bg-gray-500 rounded-2xl shadow">
     <ChatRoom/>
   </div>
 </template>
